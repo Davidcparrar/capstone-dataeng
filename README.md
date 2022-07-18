@@ -74,3 +74,7 @@ https://www.datos.gov.co/Agricultura-y-Desarrollo-Rural/Evaluaciones-Agropecuari
 
 https://www.dane.gov.co/index.php/estadisticas-por-tema/agropecuario/sistema-de-informacion-de-precios-sipsa (2013-2022)
 https://www.dane.gov.co/index.php/estadisticas-por-tema/agropecuario/sistema-de-informacion-de-precios-sipsa/componente-precios-mayoristas (daily)
+
+### Selenium 
+
+https://cloudbytes.dev/snippets/run-selenium-and-chrome-on-wsl2
