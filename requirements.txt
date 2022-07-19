@@ -3,3 +3,4 @@ pandas==1.4.3
 numpy==1.23.1
 selenium==4.3.0
 boto3==1.24.32
+xlrd==1.2.0
