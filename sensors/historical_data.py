@@ -1,10 +1,12 @@
 import configparser
+import time
+from datetime import datetime
+from io import StringIO  # python3; python2: BytesIO
+
+import boto3
+
 from logs import get_logger
 from sensors.sql_queries import query
-from io import StringIO  # python3; python2: BytesIO
-import boto3
-from datetime import datetime
-import time
 
 logger = get_logger(__name__)
 config = configparser.ConfigParser()
@@ -47,7 +49,11 @@ def get_data(
     query=query,
 ) -> pd.DataFrame:
     client = Socrata(
-        URL_DATOS, DATOS_TOKEN, username=DATOS_USER, password=DATOS_PWD
+        URL_DATOS,
+        DATOS_TOKEN,
+        username=DATOS_USER,
+        password=DATOS_PWD,
+        timeout=50,
     )
 
     # Results returned as JSON from API / converted to Python list of
@@ -63,7 +69,7 @@ def get_data(
 
 
 def main():
-    start_date = datetime(2012, 6, 12)
+    start_date = datetime(2018, 12, 12)
     end_date = datetime(2022, 7, 17)
     date_range = pd.date_range(start_date, end_date)
 
