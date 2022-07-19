@@ -129,6 +129,6 @@ dmypy.json
 .pyre/
 
 chromedriver
-*.xls
+*$*.xl*
 config.cfg
 notebooks
