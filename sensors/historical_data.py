@@ -1,6 +1,6 @@
 import configparser
 from logs import get_logger
-from sensors.sql_queries import temperature_query
+from sensors.sql_queries import query
 from io import StringIO  # python3; python2: BytesIO
 import boto3
 from datetime import datetime
@@ -20,6 +20,7 @@ DATOS_TOKEN = config.get("STAGING", "DATOS_TOKEN")
 DATOS_USER = config.get("STAGING", "DATOS_USER")
 DATOS_PWD = config.get("STAGING", "DATOS_PWD")
 CLIENT_TEMPERATURE = config.get("STAGING", "CLIENT_TEMPERATURE")
+CLIENT_HUMIDITY = config.get("STAGING", "CLIENT_HUMIDITY")
 
 import pandas as pd
 from sodapy import Socrata
@@ -39,16 +40,21 @@ def save_file(df, name):
     )
 
 
-def get_data(min_date=None, max_date=None) -> pd.DataFrame:
+def get_data(
+    min_date=None,
+    max_date=None,
+    client_code=CLIENT_TEMPERATURE,
+    query=query,
+) -> pd.DataFrame:
     client = Socrata(
         URL_DATOS, DATOS_TOKEN, username=DATOS_USER, password=DATOS_PWD
     )
 
     # Results returned as JSON from API / converted to Python list of
     # dictionaries by sodapy.
-    query = temperature_query.format(min_date=min_date, max_date=max_date)
+    query = query.format(min_date=min_date, max_date=max_date)
 
-    results = client.get(CLIENT_TEMPERATURE, query=query)
+    results = client.get(client_code, query=query)
 
     # # Convert to pandas DataFrame
     results_df = pd.DataFrame.from_records(results)
@@ -70,11 +76,18 @@ def main():
         try:
             df = get_data(min_date_str, max_date_str)
             save_file(df, f"temperature/{min_date_str}.csv")
+
+            df = get_data(
+                min_date_str, max_date_str, client_code=CLIENT_HUMIDITY
+            )
+            save_file(df, f"humidity/{min_date_str}.csv")
         except Exception as e:
             logger.error(f"Error getting data for {min_date_str}")
             logger.error(e)
             failed_dates.append({"failed": min_date_str})
 
         time.sleep(1)
-    df = pd.DataFrame(failed_dates)
-    save_file(df, "failed_dates.csv")
+
+    if failed_dates:
+        df = pd.DataFrame(failed_dates)
+        save_file(df, "failed_dates.csv")

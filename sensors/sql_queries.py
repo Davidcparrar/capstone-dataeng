@@ -1,4 +1,4 @@
-temperature_query = """
+query = """
 select
     avg(valorobservado) as average, max(valorobservado) as maximum, 
     min(valorobservado) as minimum, median(valorobservado) as median, 
