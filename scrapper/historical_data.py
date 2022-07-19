@@ -27,6 +27,7 @@ PREFIX_PRICES = config.get("STAGING", "PREFIX_PRICES")
 
 
 def get_url(element: WebElement) -> str:
+    """Get url from element"""
 
     tries = 0
     while True:
@@ -46,7 +47,9 @@ def get_url(element: WebElement) -> str:
     return url
 
 
-def save_file(url):
+def save_file(url: str) -> None:
+    """Store downloaded file in S3 bucket."""
+
     name = url.split("/")[-1]
     resp = requests.get(url)
 
@@ -65,6 +68,7 @@ def save_file(url):
 
 
 def main():
+    """Run extraction of files from the web"""
     ## Setup chrome options
     chrome_options = Options()
     chrome_options.add_argument("--headless")  # Ensure GUI is off
