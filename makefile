@@ -16,7 +16,7 @@ format:
 sort:
 	isort .
 
-clean
+clean:
 	rm $(SOURCEDIR)/logs/*.log
 
 all: install format sort lint test
