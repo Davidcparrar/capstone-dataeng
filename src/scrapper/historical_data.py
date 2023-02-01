@@ -109,7 +109,7 @@ def main():
             # Extract each file and save it in S3
             for file in list_files:
                 url = get_url(file)
-                if url:
+                if url and url.endswith((".xlsx", ".xls")):
                     save_file(url)
                     time.sleep(1)
 
