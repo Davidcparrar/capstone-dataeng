@@ -4,3 +4,9 @@ numpy==1.23.1
 selenium==4.3.0
 boto3==1.24.32
 xlrd==1.2.0
+psycopg2-binary==2.9.3
+pytest>=6.0
+pytest-cov>=2.0
+pylint>=2.0
+isort==5.10.1
+black==23.1.0
