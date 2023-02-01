@@ -5,8 +5,8 @@ from io import StringIO  # python3; python2: BytesIO
 
 import boto3
 
-from logs import get_logger
-from sensors.sql_queries import query
+from src.logs import get_logger
+from src.sensors.sql_queries import query
 
 logger = get_logger(__name__)
 config = configparser.ConfigParser()
